@@ -7,15 +7,12 @@
         Title="Wifi Finder" Height="450" Width="800">
     <Grid>
         <StackPanel>
-            <!-- Текст с наилучшим сигналом -->
             <TextBlock Text="Сеть с наилучшим сигналом:" FontWeight="Bold" />
             <TextBox Text="{Binding BestNetwork}" IsReadOnly="True" />
 
-            <!-- Кнопки для сканирования и сохранения -->
             <Button Content="Сканировать" Command="{Binding ScanNetworksCommand}" />
             <Button Content="Сохранить" Command="{Binding SaveNetworksCommand}" />
 
-            <!-- Таблица для отображения сетей -->
             <DataGrid ItemsSource="{Binding Networks}" AutoGenerateColumns="False">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="SSID" Binding="{Binding SSID}" />

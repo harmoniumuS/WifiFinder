@@ -17,13 +17,27 @@ namespace WifiFinder.Data
         }
         public async Task SaveNetworksAsync(List<WifiNetwork> networks)
         {
-            _dbContext.WifiNetworks.AddRange(networks);
-            await _dbContext.SaveChangesAsync();
+            try
+            {
+                _dbContext.WifiNetworks.AddRange(networks);
+                await _dbContext.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Ошибка при сохранении в базу данных: {ex.Message}");
+            }
         }
         public async Task SaveNetworkAsync(WifiNetwork network)
-        { 
-            _dbContext.WifiNetworks.Add(network);
-            await _dbContext.SaveChangesAsync();
+        {
+            try
+            {
+                _dbContext.WifiNetworks.Add(network);
+                await _dbContext.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Ошибка при сохранении в базу данных: {ex.Message}");
+            }
         }
     }
 }
