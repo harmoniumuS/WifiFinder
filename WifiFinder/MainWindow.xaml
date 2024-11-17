@@ -1,0 +1,27 @@
+﻿<Window x:Class="WifiFinder.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="Wifi Finder" Height="450" Width="800">
+    <Grid>
+        <StackPanel>
+            <!-- Текст с наилучшим сигналом -->
+            <TextBlock Text="Сеть с наилучшим сигналом:" FontWeight="Bold" />
+            <TextBox Text="{Binding BestNetwork}" IsReadOnly="True" />
+
+            <!-- Кнопки для сканирования и сохранения -->
+            <Button Content="Сканировать" Command="{Binding ScanNetworksCommand}" />
+            <Button Content="Сохранить" Command="{Binding SaveNetworksCommand}" />
+
+            <!-- Таблица для отображения сетей -->
+            <DataGrid ItemsSource="{Binding Networks}" AutoGenerateColumns="False">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="SSID" Binding="{Binding SSID}" />
+                    <DataGridTextColumn Header="Уровень сигнала" Binding="{Binding ConnectionQuality}" />
+                </DataGrid.Columns>
+            </DataGrid>
+        </StackPanel>
+    </Grid>
+</Window>
