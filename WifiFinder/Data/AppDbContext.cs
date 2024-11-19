@@ -7,15 +7,26 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Sqlite;
 using WifiFinder.Models;
 
+using System.IO;
+
 namespace WifiFinder.Data
 {
     public class AppDbContext : DbContext
     {
         public DbSet<WifiNetwork> WifiNetworks {get;set;}
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseSqlite("Data Source=wifi.db"); 
+        public AppDbContext(DbContextOptions<AppDbContext> options):base(options)
+        { 
+        
         }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<WifiNetwork>()
+                .Property(x => x.Id)
+                .ValueGeneratedOnAdd();
+        }
+
+
     }
 }

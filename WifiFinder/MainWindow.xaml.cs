@@ -20,7 +20,7 @@ namespace WifiFinder
         public MainWindow()
         {
             InitializeComponent();
-            DataContext = new MainViewModel();
+ 
         }
     }
 }

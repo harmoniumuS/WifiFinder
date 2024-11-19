@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -16,12 +17,6 @@ namespace WifiFinder.ViewModels
 {
     public class MainViewModel: INotifyPropertyChanged
     {
-        private readonly DataBaseService _dataBaseService;
-        private readonly WifiScannerService _wifiScannerService;
-        private string _bestNetwork;
-        private WifiNetwork _bestWifiNetwork;
-        public event PropertyChangedEventHandler? PropertyChanged;
-
         public string BestNetwork
         {
             get => _bestNetwork;
@@ -34,15 +29,23 @@ namespace WifiFinder.ViewModels
                 }
             }
         }
-
         public ObservableCollection<WifiNetwork> Networks { get; }
         public ICommand ScanNetworksCommand { get; }
         public ICommand SaveNetworksCommand { get; }
-
-        public MainViewModel()
+        public event PropertyChangedEventHandler? PropertyChanged;
+        
+        private readonly DataBaseService _dataBaseService;
+        private readonly WifiScannerService _wifiScannerService;
+        private string _bestNetwork;
+        private WifiNetwork _bestWifiNetwork;
+        private ILogger<MainViewModel> _logger;
+        
+        public MainViewModel(ILogger<MainViewModel> logger, DataBaseService dataBaseService, WifiScannerService wifiScannerService)
         {
-            _dataBaseService = new DataBaseService();
-            _wifiScannerService = new WifiScannerService();
+            _logger = logger;
+            _dataBaseService = dataBaseService;
+            _wifiScannerService = wifiScannerService;
+
             Networks = new ObservableCollection<WifiNetwork>();
             ScanNetworksCommand = new RelayCommand(ScanNetworks);
             SaveNetworksCommand = new RelayCommand(SaveNetworks);
@@ -78,12 +81,20 @@ namespace WifiFinder.ViewModels
         }
 
         // Метод для сохранения информации о сети (пока пустой, можете добавить логику для сохранения в базу данных или другой источник)
-        public void SaveNetworks()
+        public async void SaveNetworks()
         {
-            if (Networks != null)
+            if (Networks != null && Networks.Any())
             {
-                _dataBaseService.SaveNetworksAsync(Networks.ToList());
-                MessageBox.Show("Все доступные сети сохранены в базу данных!");
+                try
+                {
+                    await _dataBaseService.SaveNetworksAsync(Networks.ToList());
+                    MessageBox.Show("Все доступные сети сохранены в базу данных!");
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Произошла ошибка при сохранении данных: {ex.Message}");
+                }
+
             }
             else
             {

@@ -10,8 +10,8 @@ using WifiFinder.Data;
 namespace WifiFinder.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20241117105404_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20241117134130_CreateDb")]
+    partial class CreateDb
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
