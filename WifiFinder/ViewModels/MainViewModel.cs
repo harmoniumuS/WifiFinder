@@ -50,7 +50,7 @@ namespace WifiFinder.ViewModels
             ScanNetworksCommand = new RelayCommand(ScanNetworks);
             SaveNetworksCommand = new RelayCommand(SaveNetworks);
         }
-
+        //Метод производящий сканирование ближайших сетей и сохраняющий список сетей и лучшую сеть в список.
         public void ScanNetworks()
         {
             // Сканируем сети
@@ -79,8 +79,7 @@ namespace WifiFinder.ViewModels
                 _bestWifiNetwork = null;
             }
         }
-
-        // Метод для сохранения информации о сети (пока пустой, можете добавить логику для сохранения в базу данных или другой источник)
+        //Метод сохраняет список сетей в базу данных
         public async void SaveNetworks()
         {
             if (Networks != null && Networks.Any())

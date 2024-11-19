@@ -7,8 +7,6 @@ namespace WifiFinder.Services
     public class WifiScannerService
     {
         private Wifi _wifi;
-
-        // Конструктор, инициализирующий объект Wifi
         public WifiScannerService()
         {
             _wifi = new Wifi();
@@ -62,7 +60,6 @@ namespace WifiFinder.Services
         {
             if (networks == null || networks.Count == 0)
                 return null;  // Если нет сетей, возвращаем null
-            
 
             // Сортируем сети по качеству сигнала (от наилучшего к худшему) и возвращаем первую
             return networks.OrderByDescending(n => n.ConnectionQuality).FirstOrDefault();
