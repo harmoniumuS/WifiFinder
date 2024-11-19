@@ -7,6 +7,7 @@ using System.Windows;
 using WifiFinder.Data;
 using WifiFinder.Services;
 using WifiFinder.ViewModels;
+using WifiFinder.Views;
 
 namespace WifiFinder
 {
