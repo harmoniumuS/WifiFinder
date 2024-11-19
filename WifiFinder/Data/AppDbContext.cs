@@ -13,12 +13,10 @@ namespace WifiFinder.Data
 {
     public class AppDbContext : DbContext
     {
-        public DbSet<WifiNetwork> WifiNetworks {get;set;}
+        public DbSet<WifiNetwork> WifiNetworks { get; set; }
 
-        public AppDbContext(DbContextOptions<AppDbContext> options):base(options)
-        { 
-        
-        }
+        public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
+        public AppDbContext() { }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -26,7 +24,5 @@ namespace WifiFinder.Data
                 .Property(x => x.Id)
                 .ValueGeneratedOnAdd();
         }
-
-
     }
 }

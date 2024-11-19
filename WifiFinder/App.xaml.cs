@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System.Configuration;
 using System.Data;
+using System.IO;
 using System.Windows;
 using WifiFinder.Data;
 using WifiFinder.Services;
@@ -16,7 +17,7 @@ namespace WifiFinder
     /// </summary>
     public partial class App : Application
     {
-       
+
             private readonly IServiceProvider _serviceProvider;
 
             public App()
@@ -26,15 +27,12 @@ namespace WifiFinder
                 // Настройка логгера
                 serviceCollection.AddLogging(builder =>
                 {
-                    builder.AddConsole();  // Логирование в консоль
-                    builder.AddDebug();    // Логирование в отладчик
+                    builder.AddConsole();
+                    builder.AddDebug();
                 });
-                                
-                // Регистрация DbContext с правильной строкой подключения
+
                 serviceCollection.AddDbContext<AppDbContext>(options =>
-                {
-                    options.UseSqlite("Data Source=wifi.db"); // Исправлена ошибка в строке подключения
-                });
+                    options.UseSqlite($"Data Source=wifi.db")); 
 
                 // Регистрация сервисов
                 serviceCollection.AddScoped<DataBaseService>();
@@ -58,12 +56,15 @@ namespace WifiFinder
 
                 // Привязываем ViewModel к MainWindow
                 mainWindow.DataContext = mainViewModel;
-               
-            
-                 // Показываем окно
-                mainWindow.Show();
-            
+
                 
+                using (var scope = _serviceProvider.CreateScope())
+                {
+                    var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+                }
+
+                // Показываем окно
+                mainWindow.Show();
             }
         }
 
